@@ -1,0 +1,42 @@
+questions bar
+	list out all questions
+	if no answer on click open up a form to answer
+		button on question to add prefix and id to text : @1234
+	if answer show question
+
+
+query bar
+	default show all questions in the bar
+	filter by search
+
+add question
+	form to ask question
+		question text
+
+
+get-questions
+	{ by user-names in the username bar }
+get-answer
+	{ question id}
+
+get-usernames
+	show list of usernames and save to some var
+
+post-question
+	question text
+
+post-answer
+	answer text
+author
+	bar to enter name which sets cookie.
+
+
+
+MYSQL QUERY
+connection.query('SELECT 1', function(err, rows) {
+  // connected! (unless `err` is set)
+});
+
+GET URL QUERY 
+var url_parts = url.parse(req.url, true);
+var ARGUMENT = url_parts.query.ARGUMENT;
