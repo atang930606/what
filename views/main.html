@@ -1,7 +1,7 @@
 <div id="question-list">
 	<ul>
 		{{#questions}}
-		<li question_id="{{question_id}}" answer_id="answer_id">{{text}}</li>
+		<li question_id="{{question_id}}" answer_id="{{answer_id}}">{{question_text}}</li>
 		<button question_id="{{question_id}}">add</button>
 		{{/questions}}
 	</ul>
