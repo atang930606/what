@@ -36,6 +36,12 @@ router.get('get-questions', function(req, res) {
 
 });
 
+// Return the answer associated with the url-encoded "id" (question_id).
+// Return in the response body "null" if none exist.
+router.get('get-question-by-id', function(req, res) {
+	//return the question_text in the response body
+});
+
 // Return answer matching question in JSON format
 // Indicate if it exists or not
 router.get('get-answer', function(req, res) {

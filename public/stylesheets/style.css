@@ -11,12 +11,27 @@
 
 /* ========== Main Page ========== */
 #question-list {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 40%;
 
+	overflow-y: scroll;
 }
 
+.question-tab button{
+	position: absolute;
+	right: 20;
+
+	border: 1px red solid;
+}
 
 #add-question {
-
+	position: absolute;
+	left: 40%;
+	top: 0;
+	height: 200px;
 }
 
 #add-answer {

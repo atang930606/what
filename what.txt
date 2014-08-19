@@ -27,8 +27,6 @@ post-question
 
 post-answer
 	answer text
-author
-	bar to enter name which sets cookie.
 
 
 
