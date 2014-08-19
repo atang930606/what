@@ -3,7 +3,7 @@
 		<label>Your Username</label>
 		<select id="user-select" form="login" name="username" required>
 			{{#usernames}}
-			<option value="{{username}}">{{username}}</option>
+			<option value="{{user_name}}">{{user_name}}</option>
 			{{/usernames}}
 		</select>
 	</div>
@@ -11,7 +11,7 @@
 		<label>Group Usernames</label>
 		<select id="group-select" form="login" name="group" multiple>
 			{{#usernames}}
-			<option value="{{username}}">{{username}}</option>
+			<option value="{{user_name}}">{{user_name}}</option>
 			{{/usernames}}
 		</select>
 	</div>
