@@ -15,7 +15,10 @@ var connection  =
 // Show all usernames and allow users to enter their own username
 // as well as select from list and add to cookies
 router.get('/', function(req, res) {
-  res.render('index', { "usernames" : usernames  });
+  connection.query("rawsql", function(err, rows){
+  	var usernames = rows;
+  	res.render('index', { "usernames" : usernames  });	
+  });
 });
 
 // Render main page with all QUESTIONS on left bar
