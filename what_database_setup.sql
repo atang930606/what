@@ -33,7 +33,8 @@ CREATE TABLE answers
 
 	CONSTRAINT answers_answer_id_pk PRIMARY KEY (answer_id),
 	CONSTRAINT answers_question_id_pk FOREIGN KEY (question_id) REFERENCES questions(question_id),
-	CONSTRAINT answers_user_id_fk FOREIGN KEY (user_id) REFERENCES users(user_id)	
+	CONSTRAINT answers_user_id_fk FOREIGN KEY (user_id) REFERENCES users(user_id),
+	CONSTRAINT answers_question_id_uc UNIQUE (question_id)	
 );
 
 CREATE TABLE answer_references

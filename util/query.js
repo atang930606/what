@@ -1,4 +1,4 @@
-var url 		= require('url');
+
 var mysql 		= require('mysql');
 var connection  = 
 		mysql.createConnection({
@@ -9,21 +9,25 @@ var connection  =
 			database: 	'what_db'
 		});
 
-module.exports.getQuestions = function(req, res){
-	var url_parts = url.parse(req.url, true);
-	var username = [];
-	username.push(url_parts.query.username);
+module.exports.getIndex = function(next){
+	var usernames = [];
+	var query = connection.query('SELECT * FROM users', function(err, results){
+		if(err)
+			console.error(err);
+		results.forEach(function(row){
+			usernames.push(row);
+		});
+		next(usernames);
+	});
+}
 
-	//var group = url_parts.query.group;
-	// group.forEach(function(name){
-	// 	username.push(name);
-	// });
+module.exports.getMain = function(usernames, next){
 	var questions = [];
 
-	for(var cond = "", i = 0; i < username.length - 1; cond += 'user_name = ',
-													   cond += connection.escape(username[i]),
-													   cond += ' OR ', i++);
-	var last = 'user_name = ' + connection.escape(username[username.length - 1]);
+	for(var cond = "", i = 0; i < usernames.length - 1; cond += 'user_name = ',
+													    cond += connection.escape(usernames[i]),
+													    cond += ' OR ', i++);
+	var last = 'user_name = ' + connection.escape(usernames[usernames.length - 1]);
 
 	cond += last;
 
@@ -32,7 +36,7 @@ module.exports.getQuestions = function(req, res){
 					  "WHERE questions.user_id IN (SELECT user_id " +
 					   							   "FROM users " +
 					   							   "WHERE " + cond + ');';
-	console.log(userids_sql);
+
 	var query = connection.query(userids_sql, function(err, results){
 		if(err)
 			console.error(err);
@@ -40,21 +44,102 @@ module.exports.getQuestions = function(req, res){
 			questions.push({'question_id': row.question_id, 'question_text': row.question_text, 'answer_id': row.answer_id});
 			
 		});
-		res.setHeader('Content-Type', 'text/html');
-		res.render('main', {"questions" : questions})
-		
+		next(questions);
 	});
 }
 
-module.exports.getUserNames = function(req, res){
+module.exports.getQuestions = function(usernames, next){
+	var questions = [];
+
+	for(var cond = "", i = 0; i < usernames.length - 1; cond += 'user_name = ',
+													   cond += connection.escape(usernames[i]),
+													   cond += ' OR ', i++);
+	var last = 'user_name = ' + connection.escape(usernames[usernames.length - 1]);
+
+	cond += last;
+
+	var userids_sql = "SELECT * "+
+					  "FROM questions " +
+					  "WHERE questions.user_id IN (SELECT user_id " +
+					   							   "FROM users " +
+					   							   "WHERE " + cond + ');';
+
+	var query = connection.query(userids_sql, function(err, results){
+		if(err)
+			console.error(err);
+		results.forEach(function(row){
+			questions.push({'question_id': row.question_id, 'question_text': row.question_text, 'answer_id': row.answer_id});
+			
+		});		
+		next(questions);
+	});	
+}
+
+
+
+module.exports.getUsernames = function(next){
 	var usernames = [];
 	var query = connection.query('SELECT * FROM users', function(err, results){
 		if(err)
 			console.error(err);
+
 		results.forEach(function(row){
 			usernames.push(row);
 		});
-		res.render('index', {"usernames": usernames});
+		next(usernames);
 	});
 	
 }
+
+module.exports.getAnswerByQid = function(question_id, next){
+	var sql_query = 'SELECT * FROM answers WHERE question_id = ' + connection.escape(question_id);
+	var answer = [];
+	var query = connection.query(sql_query, function(err, result){
+		if(err){
+			console.error(err);
+		}
+		result.forEach(function(record){
+			answer.push(record);
+		});
+		return next(answer);
+	});
+}
+
+module.exports.postQuestion = function(question_text, username, next){
+
+	var sql_insert = 'INSERT INTO questions(question_text, user_id) ' +
+					 'VALUES (' + connection.escape(question_text) +
+					 ', (SELECT user_id ' + 
+					    'FROM users ' +
+					  	'WHERE user_name = ' + connection.escape(username) +'));';
+
+	var query = connection.query(sql_insert, function(err){
+		if(err)
+			console.error(err);
+		next();
+	});	
+}
+
+module.exports.postAnswer = function(question_id, answer_text, username, next){
+	var sql_insert = 'INSERT INTO answers(question_id, answer_text, user_id) ' +
+					 'VALUES (' + connection.escape(question_id) +
+					 ', ' + connection.escape(answer_text) +	
+					 ', (SELECT user_id ' + 
+					    'FROM users ' +
+					  	'WHERE user_name = ' + connection.escape(username) +'));';
+	var query = connection.query(sql_insert, function(err){
+		if(err)
+			console.error(err);
+		next();
+	});
+}
+
+
+
+
+
+
+
+
+
+
