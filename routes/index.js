@@ -24,6 +24,8 @@ router.get('/', function(req, res) {
 // Render main page with all QUESTIONS on left bar
 // blank answer since no question selected yet
 // questions will show + button if answering (id to question tag)
+// given: one or multiple user_ids
+// return: all qid
 router.get('/main', function(req, res) {
 	// url encoded usernames list and own username to fetch qs
 	res.render('main', {"questions" : questions})
