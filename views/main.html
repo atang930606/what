@@ -6,7 +6,7 @@
 		{{/questions}}
 	</ul>
 </div>
-<div>
+<div id="add-question">
 	<form id="question-form" action="/post-question" method="POST">
 		<div class="form-group">
 			<label>Question</label>
@@ -15,7 +15,7 @@
 		<button type="submit">Ask</button>
 	</form>
 </div>
-<div>
+<div id="add-answer">
 	<form id="answer-form" action="/post-answer" method="POST">
 		<textarea id="answer-form" form="answer-form" class="form-control" name="answer"></textarea>
 		<button type="submit">Answer</button>

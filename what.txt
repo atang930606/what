@@ -32,6 +32,9 @@ author
 
 
 
+
+======================== EXAMPLES ========================
+
 MYSQL QUERY
 connection.query('SELECT 1', function(err, rows) {
   // connected! (unless `err` is set)
