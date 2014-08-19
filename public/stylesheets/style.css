@@ -1,7 +1,19 @@
 * {
-	box-sizing: border-box;
+	border: 1px red dotted;
 }
 
+ul {
+	list-style-type: none;
+}
+
+/* ========== Banner ========== */
+#banner {
+	height: 70px;
+	background-color: #caffc1;
+	text-align: center;
+	font-size: 48px;
+	color: black;
+}
 /* ========== Login Page ========== */
 #login {
 	width: 300px;
@@ -11,30 +23,44 @@
 
 /* ========== Main Page ========== */
 #question-list {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 40%;
 
 	overflow-y: scroll;
+	background-color: #ffe6c1;
+}
+
+.question-tab {
+	position: relative;
+	border: 1px black solid;
+	height: 30px;
+	background-color: #ffc9a2;
 }
 
 .question-tab button{
 	position: absolute;
-	right: 20;
-
+	right: 0px;
+	top: 0px;
+	height: 30px;
 	border: 1px red solid;
+	background-color: #ffb5c4;
 }
 
 #add-question {
-	position: absolute;
-	left: 40%;
-	top: 0;
-	height: 200px;
+	float: left;
+	width: 100%;
+	background-color: #ebfff8;
 }
 
 #add-answer {
-
+	float: left;
+	width: 100%;
+	background-color: #e9ddff;
 }
 
+#answer {
+	float: left;
+	width: 100%;
+	background-color: #ffd0f4;
+}
+
+#other-side {
+}

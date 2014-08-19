@@ -1,3 +1,5 @@
+var current_question_id;
+
 $(document).ready(function(){
 
 	$('#login-button').click(function(){
@@ -5,6 +7,7 @@ $(document).ready(function(){
 	});
 
 	$('.question').click(function(eventObject){
+		current_question_id = $(this).attr("question_id");
 		setAnswer($(this));
 	});
 
@@ -14,7 +17,13 @@ $(document).ready(function(){
 
 	// Clear the question after it has been asked.
 	$('#ask-question-button').click(function(eventObject){
-		$('#question-text').text("");
+		eventObject.preventDefault();
+		askQuestion();
+	});
+
+	$('#submit-answer').click(function(eventObject){
+		eventObject.preventDefault();
+		submitAnswer();
 	});
 
 
@@ -45,23 +54,25 @@ function setGroupCookies(){
  */
 function setAnswer(eventObject){
 	var question_id = eventObject.attr("question_id");
-		$.ajax({
-			type: "GET",
-			url:  "get-question-by-id",
-			ajax: true,
-			data: {"id" : question_id},
-			success: function(data){
+	$.ajax({
+		type: "GET",
+		url:  "get-answer-by-qid",
+		ajax: true,
+		data: {"id" : question_id},
+		success: function(data){
+			$('#add-answer').css("visibility", "hidden");
+			if(data == ''){
+				$('#answer').css("visibility", "hidden");
+				$('#add-answer').css("visibility", "visible");
+			}else{
+				$('#answer').text(data);
+				$('#answer').css("visibility", "visible");
 				$('#add-answer').css("visibility", "hidden");
-				if(data == "null"){
-					// TODO: hide #answer and show answer form
-					
-				}else{
-					// TODO: show #answer
-					$('#answer').text(data);	
-				}
-				
+
 			}
-		});
+			
+		}
+	});
 }
 
 /* Click listener for the question-link button which will append
@@ -74,10 +85,36 @@ function appendLink(eventObject){
 	$('#answer-form').val(current_text);
 }
 
+/*  Click listener for ASK button
+ *  Send AJAX POST and then clear the question text
+ */
+function askQuestion(){
+	$.ajax({
+		type: "POST",
+		url:  "post-question",
+		async: true,
+		data: {question_text: $('#question-text').val(), username: $.cookie("username")},
+		success: function(){
+			$('#question-text').text("");
+		}
+	});	
+}
 
-
-
-
+/*  Click listener for ANSWER button
+ *  Send AJAX POST and then hide the question and clear the text.
+ */
+function submitAnswer(){
+	$.ajax({
+		type: "POST",
+		url:  "post-answer",
+		async: true,
+		data: {question_id: current_question_id, answer_text : $('#answer-form').val(), username: $.cookie("username")},
+		success: function(){
+			$('#add-answer').css("visbility", "hidden");
+			$('#answer-area').value("");
+		}
+	});
+}
 
 
 

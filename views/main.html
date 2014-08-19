@@ -1,27 +1,33 @@
-<div id="question-list">
-	<ul>
-		{{#questions}}
-		<div class="question-tab">
-		<li class="question" question_id="{{question_id}}" answer_id="answer_id">{{question_text}}</li>
-		<button class="question-link" question_id="{{question_id}}">add</button>
+<div class="row">
+	<div class="col-md-6 col-sm-6"id="question-list">
+		<ul>
+			{{#questions}}
+			<div class="question-tab">
+			<li class="question" question_id="{{question_id}}" answer_id="answer_id">{{question_text}}</li>
+			<button class="question-link" question_id="{{question_id}}">add</button>
+			</div>
+			{{/questions}}
+		</ul>
+	</div>
+	<div class="col-md-6 col-sm-6" id="other-side">
+		<div id="answer" style="visibility: hidden"></div>
+		<div id="add-question">
+			<form id="question-form" action="/post-question" method="POST">
+				<div class="form-group">
+					<label>Question</label>
+					<input id="question-text" type="text" class="form-control" name="question">
+				</div>
+				<button id="ask-question-button" type="submit">Ask</button>
+			</form>
 		</div>
-		{{/questions}}
-	</ul>
-</div>
-<div id="answer">
-</div>
-<div id="add-question">
-	<form id="question-form" action="/post-question" method="POST">
-		<div class="form-group">
-			<label>Question</label>
-			<input id="question-text" type="text" class="form-control" name="question">
+		<div id="add-answer" style="visibility: hidden">
+			<form id="answer-form" action="/post-answer" method="POST">
+				<div class="form-group">
+					<label>Answer</label>
+					<textarea id="answer-area" form="answer-form" class="form-control" name="answer"></textarea>
+				</div>
+				<button id="submit-answer" type="submit">Answer</button>
+			</form>
 		</div>
-		<button id="ask-question-button" type="submit">Ask</button>
-	</form>
-</div>
-<div id="add-answer">
-	<form id="answer-form" action="/post-answer" method="POST">
-		<textarea id="answer-form" form="answer-form" class="form-control" name="answer"></textarea>
-		<button type="submit">Answer</button>
-	</form>
+	</div>
 </div>
